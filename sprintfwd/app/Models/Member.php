@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
+    use HasFactory;
     protected $fillable = ['first_name', 'last_name', 'city', 'state', 'country', 'team_id'];
 
     public function team()

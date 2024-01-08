@@ -5,7 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-
+use App\Models\Project;
+use Database\Factories\ProjectFactory;
 class ProjectControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -30,7 +31,7 @@ class ProjectControllerTest extends TestCase
 
     public function test_can_update_project()
     {
-        $project = factory(\App\Project::class)->create();
+        $project = Project::factory()->create(['name' => 'alpha']);
 
         $data = [
             'name' => 'Updated Project Name',
@@ -47,7 +48,7 @@ class ProjectControllerTest extends TestCase
 
     public function test_can_delete_project()
     {
-        $project = factory(\App\Project::class)->create();
+        $project = Project::factory()->create(['name' => 'alpha']);
 
         $response = $this->json('DELETE', "{$this->projectsBaseRoute}/{$project->id}");
 
@@ -58,25 +59,25 @@ class ProjectControllerTest extends TestCase
 
     public function test_can_index_projects()
     {
-        $projects = factory(\App\Project::class, 3)->create();
+        $projects = Project::factory()->count(3)->create();
 
         $response = $this->json('GET', $this->projectsBaseRoute);
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3, 'data');
+                 ->assertJsonCount(3);
 
         foreach ($projects as $project) {
-            $response->assertJson(['data' => [['id' => $project->id, 'name' => $project->name ]]]);
+            $response->assertJsonFragment(['id' => $project->id, 'name' => $project->name ]);
         }
     }
 
     public function test_can_show_project()
     {
-        $project = factory(\App\Project::class)->create();
+        $project = Project::factory()->create(['name' => 'alpha']);
 
         $response = $this->json('GET', "{$this->projectsBaseRoute}/{$project->id}");
 
         $response->assertStatus(200)
-                 ->assertJson(['data' => ['id' => $project->id, 'name' => $project->name]]);
+                 ->assertJson( ['id' => $project->id, 'name' => $project->name]);
     }
 }
