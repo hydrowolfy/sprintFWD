@@ -14,7 +14,7 @@ use App\Http\Controllers\ProjectController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 // Members
 Route::resource('members', MemberController::class);
@@ -24,10 +24,15 @@ Route::resource('teams', TeamController::class);
 
 // Projects
 Route::resource('projects', ProjectController::class);
+
 Route::get('/allteams', [TeamController::class, 'showAll']);
 Route::get('/allprojects', [ProjectController::class, 'showAll']);
 Route::get('/allmembers', [MemberController::class, 'showAll']);
+Route::get('/members/updateteam/{id}', [MemberController::class, 'updateTeamView'])->name('members.updateTeam');
+Route::get('/teams/getteammembers/{id}', [TeamController::class, 'getAllTeamMembers'])->name('teams.getTeamMembers');
+//Route::get('/members/addmembertoproject/{id}', [ProjectController::class, 'addMemberView'])->name('projects.addMember');
+Route::get('/members/{id}/addmembertoproject/', [MemberController::class, 'addProjectView'])->name('members.addProject');
+Route::put('/members/{id}/addmembertoproject/', [MemberController::class, 'addMemberToProject'])->name('projects.addMember');
+Route::get('/projects/getprojectmembers/{id}', [ProjectController::class, 'getMembers'])->name('projects.getProjectMembers');
 
-// Additional routes for your bonus functionalities (if needed)
-// ...
 

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Team;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -90,4 +91,31 @@ class MemberController extends Controller
 
         return response()->json($member, Response::HTTP_OK);
     }
+
+    public function updateTeamView($id)
+    {
+        $teams = Team::all();
+        $member = Member::findOrFail($id);
+        return view('members.updateTeam', compact('id', 'teams', 'member'));
+    }
+    
+    public function addProjectView($id)
+    {
+        $projects = Project::all();
+        $member = Member::findOrFail($id);
+        return view('members.addProject', compact('id', 'projects', 'member'));
+    }
+    // API Endpoint to Add a Member to a Project
+    public function addMemberToProject(Request $request, $id)
+    {
+        $projectID = $request->input('hidden_project_id');
+        $project = Project::findOrFail($projectID);
+        $member = Member::findOrFail($id);
+        $project->members()->attach($member);
+        $members =  $project->members()->get();
+        return response()->json( $members , Response::HTTP_OK);
+    }
+
+
+    
 }

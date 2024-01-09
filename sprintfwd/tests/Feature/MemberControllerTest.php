@@ -65,7 +65,7 @@ class MemberControllerTest extends TestCase
 
         $this->assertDatabaseHas('members', $data);
     }
-    public function test_can_update_member_test()
+    public function test_can_update_member_team()
     {
         $team = Team::factory()->create(['name' => 'alpha']);
         $betaTeam = Team::factory()->create(['name' => 'beta']);

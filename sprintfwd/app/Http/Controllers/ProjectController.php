@@ -88,5 +88,11 @@ class ProjectController extends Controller
     {
         return view('projects.create');
     }
-
+    public function addMemberView($id)
+    {
+        $members = Member::all();
+        $project = Project::findOrFail($id);
+        return view('projects.addMembers', compact('id', 'project','members'));
+    }
+    
 }
