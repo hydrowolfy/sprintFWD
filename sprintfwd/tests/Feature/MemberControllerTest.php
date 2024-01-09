@@ -16,9 +16,9 @@ class MemberControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker; 
-    private $teamsBaseRoute = '/teams';
-    private $membersBaseRoute = '/members'; 
-    private $projectsBaseRoute = '/projects';
+    private $teamsBaseRoute = '/api/teams';
+    private $membersBaseRoute = '/api/members'; 
+    private $projectsBaseRoute = '/api/projects';
 
     public function test_can_create_member()
     {
@@ -65,6 +65,24 @@ class MemberControllerTest extends TestCase
 
         $this->assertDatabaseHas('members', $data);
     }
+    public function test_can_update_member_test()
+    {
+        $team = Team::factory()->create(['name' => 'alpha']);
+        $betaTeam = Team::factory()->create(['name' => 'beta']);
+
+        $member = Member::factory()->create(['team_id' => $team->id]); 
+        $data = [
+            'team_id' => $betaTeam->id, 
+        ];
+
+        $response = $this->json('PUT', "{$this->membersBaseRoute}/{$member->id}/update-team", $data);
+
+        $response->assertStatus(200)
+        ->assertJson(['team_id' => $betaTeam->id]);
+
+        $this->assertDatabaseHas('members', $data);
+    }
+
     public function test_can_delete_member()
     {
         $team = Team::factory()->create(['name' => 'alpha']);

@@ -59,18 +59,22 @@ class ProjectController extends Controller
     }
 
     // API Endpoint to Add a Member to a Project
-    public function addMember(Request $request, Project $project, Member $member)
+    public function addMember( $projectID,  $memberID)
     {
+        $project = Project::findOrFail($projectID);
+        $member = Member::findOrFail($memberID);
         $project->members()->attach($member);
-
-        return response()->json($project->fresh(), Response::HTTP_OK);
+        $members =  $project->members()->get();
+        return response()->json( $members , Response::HTTP_OK);
     }
 
     // API Endpoint to Get Members of a Specific Project
-    public function getMembers(Project $project)
+    public function getMembers($id)
     {
-        $members = $project->members;
+        $project = Project::findOrFail($id);
 
+        $members =  $project->members()->get();
+        
         return response()->json($members, Response::HTTP_OK);
     }
 

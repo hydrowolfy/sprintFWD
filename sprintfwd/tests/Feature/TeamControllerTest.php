@@ -7,11 +7,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Database\Factories\TeamFactory;
 use App\Models\Team;
+use App\Models\Member; 
+use Database\Factories\MemberFactory;
+
 class TeamControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $baseRoute = '/teams';
+    private $baseRoute = '/api/teams';
 
     public function test_can_create_team()
     {
@@ -77,4 +80,18 @@ class TeamControllerTest extends TestCase
         $response->assertStatus(200)
                  ->assertJson( ['id' => $team->id, 'name' => $team->name]);
     }
+
+    public function test_can_show_team_members()
+    {
+        $team = Team::factory()->create(['name' => 'alpha']);
+        $member1 = Member::factory()->create(['team_id' => $team->id]); 
+        $member2 = Member::factory()->create(['team_id' => $team->id]); 
+
+        $response = $this->json('GET', "{$this->baseRoute}/{$team->id}/members");
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['first_name' => $member1->first_name,'last_name' => $member1->last_name]);
+        $response->assertJsonFragment(['first_name' => $member2->first_name,'last_name' => $member2->last_name]);
+
+    }
+    
 }

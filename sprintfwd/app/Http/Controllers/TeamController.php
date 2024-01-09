@@ -59,10 +59,9 @@ class TeamController extends Controller
     }
 
     // API Endpoint to Get Members of a Specific Team
-    public function getMembers(Team $team)
+    public function getMembers($id)
     {
-        $members = $team->members;
-
+        $members = Member::select('first_name','last_name')->where('team_id', $id)->get();
         return response()->json($members, Response::HTTP_OK);
     }
 

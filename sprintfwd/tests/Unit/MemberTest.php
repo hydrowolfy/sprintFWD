@@ -33,6 +33,7 @@ class MemberTest extends TestCase
         $this->assertEquals('City', $member->city);
         $this->assertEquals('State', $member->state);
         $this->assertEquals('Country', $member->country);
+        $this->assertEquals($team->id, $member->team_id);
     }
 
     public function test_it_belongs_to_team()
@@ -53,7 +54,7 @@ class MemberTest extends TestCase
 
         $member->projects()->attach([$project1->id, $project2->id]);
 
-        $projectIds =  $member->projects()->pluck('projects.id')->toArray();
+        $projectIds = $member->projects()->pluck('projects.id')->toArray();
         $this->assertCount(2, $member->projects);
         $this->assertContains($project1->id,$projectIds);
         $this->assertContains($project2->id,$projectIds);

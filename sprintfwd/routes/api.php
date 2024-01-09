@@ -33,7 +33,7 @@ Route::put('/projects/{project}', [ProjectController::class, 'update']);
 Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
 
 // API Endpoint to Add a Member to a Project
-Route::put('/projects/{project}/add-member/{member}', [ProjectController::class, 'addMember']);
+Route::put('/projects/{projectID}/add-member/{memberID}', [ProjectController::class, 'addMember']);
 
 // API Endpoint to Get Members of a Specific Project
 Route::get('/projects/{project}/members', [ProjectController::class, 'getMembers']);
