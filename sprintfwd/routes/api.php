@@ -20,6 +20,7 @@ Route::get('/teams/{team}/members', [TeamController::class, 'getMembers']);
 // API Endpoints for Teams
 Route::get('/teams', [TeamController::class, 'index']);
 Route::get('/teams/{team}', [TeamController::class, 'show']);
+Route::get('/teams/all', [TeamController::class, 'showAll']);
 Route::post('/teams', [TeamController::class, 'store']);
 Route::put('/teams/{team}', [TeamController::class, 'update']);
 Route::delete('/teams/{team}', [TeamController::class, 'destroy']);

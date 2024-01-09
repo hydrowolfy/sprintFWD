@@ -84,7 +84,7 @@ class MemberControllerTest extends TestCase
     
         $memberIds = $members->pluck('id')->toArray();
     
-        $response = $this->json('GET', $this->membersBaseRoute, ['member_ids' => $memberIds]);
+        $response = $this->json('GET', '/allmembers', ['member_ids' => $memberIds]);
         $response->assertStatus(200)
                  ->assertJsonCount(3);
         

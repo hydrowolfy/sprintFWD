@@ -19,10 +19,10 @@ class TeamControllerTest extends TestCase
             'name' => 'Sample Team',
         ];
 
-        $response = $this->json('POST', $this->baseRoute, $data);
+        $response = $this->json('POST', "teams", $data);
 
         $response->assertStatus(201)
-                 ->assertJson(['name' => 'Sample Team', /*... other expected fields ...*/]);
+                 ->assertJson(['name' => 'Sample Team']);
 
         $this->assertDatabaseHas('teams', $data);
     }
@@ -38,7 +38,7 @@ class TeamControllerTest extends TestCase
         $response = $this->json('PUT', "{$this->baseRoute}/{$team->id}", $data);
 
         $response->assertStatus(200)
-                 ->assertJson(['name' => 'Updated Team Name']);
+                 ->assertJson(['name' => 'Updated Team Name', 'id'=>$team->id]);
 
         $this->assertDatabaseHas('teams', $data);
     }
@@ -58,7 +58,7 @@ class TeamControllerTest extends TestCase
     {
         $teams = Team::factory()->count(3)->create();
 
-        $response = $this->json('GET', $this->baseRoute);
+        $response = $this->json('GET',"/allteams");
 
         $response->assertStatus(200)
                  ->assertJsonCount(3); 

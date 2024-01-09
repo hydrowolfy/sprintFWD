@@ -24,6 +24,9 @@ Route::resource('teams', TeamController::class);
 
 // Projects
 Route::resource('projects', ProjectController::class);
+Route::get('/allteams', [TeamController::class, 'showAll']);
+Route::get('/allprojects', [ProjectController::class, 'showAll']);
+Route::get('/allmembers', [MemberController::class, 'showAll']);
 
 // Additional routes for your bonus functionalities (if needed)
 // ...

@@ -17,7 +17,6 @@ class ProjectController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            // ... other fields
         ]);
 
         $project = Project::create($request->all());
@@ -41,14 +40,18 @@ class ProjectController extends Controller
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
-    // API Endpoint to Index/Show Projects
     public function index()
+    {
+        $projects = Project::all();
+        return view('projects.index', compact('projects'));
+    }
+
+    public function showAll()
     {
         $projects = Project::all();
 
         return response()->json($projects, Response::HTTP_OK);
     }
-
     // API Endpoint to Show a Specific Project
     public function show(Project $project)
     {
@@ -70,4 +73,16 @@ class ProjectController extends Controller
 
         return response()->json($members, Response::HTTP_OK);
     }
+
+    public function edit($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('projects.edit', compact('project'));
+    }
+    
+    public function create()
+    {
+        return view('projects.create');
+    }
+
 }

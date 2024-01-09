@@ -41,7 +41,7 @@ class ProjectControllerTest extends TestCase
         $response = $this->json('PUT', "{$this->projectsBaseRoute}/{$project->id}", $data);
 
         $response->assertStatus(200)
-                 ->assertJson(['name' => 'Updated Project Name', ]);
+                 ->assertJson(['name' => 'Updated Project Name','id' => $project->id ]);
 
         $this->assertDatabaseHas('projects', $data);
     }
@@ -61,7 +61,7 @@ class ProjectControllerTest extends TestCase
     {
         $projects = Project::factory()->count(3)->create();
 
-        $response = $this->json('GET', $this->projectsBaseRoute);
+        $response = $this->json('GET', '/allprojects');
 
         $response->assertStatus(200)
                  ->assertJsonCount(3);

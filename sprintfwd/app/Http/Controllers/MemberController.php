@@ -5,12 +5,25 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Member;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class MemberController extends Controller
 {
-    // ... (existing methods)
+
+    public function create()
+    {
+        $teams = Team::all();
+        return view('members.create', compact('teams'));
+    }
+
+    public function edit($id)
+    {
+        $member = Member::findOrFail($id);
+        $teams = Team::all();
+        return view('members.edit', compact('member', 'teams'));
+    }
 
     // API Endpoint to Create a Member
     public function store(Request $request)
@@ -45,8 +58,14 @@ class MemberController extends Controller
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
-    // API Endpoint to Index/Show Members
+    // Endpoint to view Members
     public function index()
+    {
+        $members = Member::all();
+        return view('members.index', compact('members'));
+    }
+   
+    public function showAll()
     {
         $members = Member::all();
 

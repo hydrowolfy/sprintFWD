@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 // app/Http/Controllers/TeamController.php
 
+use App\Models\Member;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,11 +39,16 @@ class TeamController extends Controller
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
-    // API Endpoint to Index/Show Teams
+    //Endpoint to Index/Show Teams
     public function index()
     {
         $teams = Team::all();
-
+        return view('teams.index', compact('teams'));
+    }
+        // API Endpoint to Show Teams
+    public function showAll()
+    {
+        $teams = Team::all();
         return response()->json($teams, Response::HTTP_OK);
     }
 
@@ -59,4 +65,16 @@ class TeamController extends Controller
 
         return response()->json($members, Response::HTTP_OK);
     }
+
+    public function create()
+    {
+        return view('teams.create');
+    }
+
+    public function edit($id)
+    {
+        $team = Team::findOrFail($id);
+        return view('teams.edit', compact('team'));
+    }
+
 }
